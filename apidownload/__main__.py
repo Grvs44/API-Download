@@ -1,21 +1,31 @@
+"""
+Download the JSON contents of an API endpoint
+"""
 import json
-from pathlib import Path
-import requests
 import shutil
 import sys
+from pathlib import Path
+
+import requests
 
 SETTINGS_FILE = Path('settings.json')
 
 
 def fetch_endpoint(url: str, file: str, indent: int = 2):
+    """
+    Download the JSON data at url and save it in file
+    """
     print('Updating ', file, '... ', sep='', end='')
-    request = requests.get(url)
+    request = requests.get(url, timeout=20)
     data = request.json()
     Path(file).write_text(json.dumps(data, indent=indent))
     print('Done')
 
 
 def create_settings_file():
+    """
+    Copy the example settings.json file into this directory
+    """
     shutil.copyfile(
         Path(__file__).parent / 'default_settings.json',
         SETTINGS_FILE
@@ -24,6 +34,9 @@ def create_settings_file():
 
 
 def main():
+    """
+    Entry-point to program
+    """
     if SETTINGS_FILE.exists():
         settings = json.loads(SETTINGS_FILE.read_text())
         for endpoint in settings:
