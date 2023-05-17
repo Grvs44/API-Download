@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apidownload"
-version = "0.0.0"
+version = "1.0.0"
 authors = [
   { name="Joe Greaves" },
 ]
@@ -21,10 +21,7 @@ dependencies = [
 ]
 
 [project.scripts]
-apidownload = "apidownload.__main__.main"
+apidownload = "apidownload:__main__.main"
 
 [project.urls]
 "Homepage" = "https://github.com/Grvs44/API-Download"
-
-[tool.setuptools]
-include-package-data = true
