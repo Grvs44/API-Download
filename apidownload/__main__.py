@@ -8,7 +8,7 @@ from pathlib import Path
 
 import requests
 
-SETTINGS_FILE = Path('settings.json')
+SETTINGS_FILE = Path('apidownload.json')
 
 
 def fetch_endpoint(url: str, file: str, indent: int = 2):
@@ -27,7 +27,7 @@ def create_settings_file():
     Copy the example settings.json file into this directory
     """
     shutil.copyfile(
-        Path(__file__).parent / 'default_settings.json',
+        Path(__file__).parent / 'apidownload.json',
         SETTINGS_FILE
     )
     print('Created', SETTINGS_FILE.absolute())
@@ -40,7 +40,7 @@ def main():
     if SETTINGS_FILE.exists():
         settings = json.loads(SETTINGS_FILE.read_text())
         for endpoint in settings:
-            if isinstance(endpoint, dict):
+            if not isinstance(endpoint, dict):
                 fetch_endpoint(**endpoint)
             else:
                 print('Invalid endpoint type:', endpoint, file=sys.stderr)
