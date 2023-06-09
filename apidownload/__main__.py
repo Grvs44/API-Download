@@ -15,11 +15,19 @@ def fetch_endpoint(url: str, file: str, indent: int = 2):
     """
     Download the JSON data at url and save it in file
     """
-    print('Updating ', file, '... ', sep='', end='')
-    request = requests.get(url, timeout=20)
-    data = request.json()
+    print('Updating ', file, sep='')
+    try:
+        request = requests.get(url, timeout=20)
+    except requests.ConnectionError:
+        print('\tCouldn\'t connect to', url, file=sys.stderr)
+        return
+    try:
+        data = request.json()
+    except requests.JSONDecodeError:
+        print('\tInvalid JSON format returned', file=sys.stderr)
+        return
     Path(file).write_text(json.dumps(data, indent=indent))
-    print('Done')
+    print('\tDone')
 
 
 def create_settings_file():
