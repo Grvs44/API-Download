@@ -33,15 +33,30 @@ def create_settings_file():
     print('Created', SETTINGS_FILE.absolute())
 
 
+def check_endpoint(endpoint: dict):
+    valid = True
+    if 'url' not in endpoint:
+        print('Missing "url" parameter:', endpoint)
+        valid = False
+    if 'file' not in endpoint:
+        print('Missing "file" parameter:', endpoint)
+        valid = False
+    return valid
+
 def main():
     """
     Entry-point to program
     """
     if SETTINGS_FILE.exists():
-        settings = json.loads(SETTINGS_FILE.read_text())
+        try:
+            settings = json.loads(SETTINGS_FILE.read_text())
+        except json.JSONDecodeError:
+            print('Invalid JSON format:', SETTINGS_FILE.absolute(), file=sys.stderr)
+            return
         for endpoint in settings:
-            if not isinstance(endpoint, dict):
-                fetch_endpoint(**endpoint)
+            if isinstance(endpoint, dict):
+                if check_endpoint(endpoint):
+                    fetch_endpoint(**endpoint)
             else:
                 print('Invalid endpoint type:', endpoint, file=sys.stderr)
     else:
