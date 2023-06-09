@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [project.scripts]
-apidownload = "apidownload:__main__.main"
+apidownload = "apidownload:main"
 
 [project.urls]
 "Homepage" = "https://github.com/Grvs44/API-Download"
