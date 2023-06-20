@@ -4,7 +4,7 @@ from . import ApiDownload
 def main():
     parser = ArgumentParser(
         prog='apidownload',
-        description='Read the Pronouns.page file from stdin',
+        description='Download JSON data from API endpoints',
     )
     parser.add_argument('path', default='.', nargs='?',
                         help='Provide an alternative directory or file')
